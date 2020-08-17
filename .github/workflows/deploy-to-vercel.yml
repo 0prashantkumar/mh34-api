@@ -32,7 +32,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Github Action"
-        git commit -m "update json" -a
+        git add .
+        git commit -m "update json"
         
     - name: GitHub Push
       uses: ad-m/github-push-action@v0.6.0

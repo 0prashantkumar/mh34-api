@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Sheet to JSON
+
+on:
+  schedule:
+    # every 60 minutes the job will run
+    - cron: "0 */4 * * *"
+  push:
+    branches:
+      - master
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  update-json-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Fetch data from sheet
+      run: |
+        npm start
+      env:
+          SHEET_ID_2: ${{ secrets.SHEET_ID_2 }}
+        
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Github Action"
+        git commit -m "update json" -a
+        
+    - name: GitHub Push
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

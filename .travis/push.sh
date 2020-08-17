@@ -10,7 +10,7 @@ commit_json_file() {
   git checkout master
   dateAndMonth=`date "+%b %Y %T"`
   # Stage the modified files in dist/output
-  git add -f temp/data.json
+  git add .
   # Create a new commit with a custom build message
   # with "[skip ci]" to avoid a build loop
   # and Travis build number for reference

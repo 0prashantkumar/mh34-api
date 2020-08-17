@@ -4,6 +4,7 @@ node_js:
 
 install:
     - npm install
+    - rm temp/data.json
 
 script:
     - npm start

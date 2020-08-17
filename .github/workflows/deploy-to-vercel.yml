@@ -13,28 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 9
     steps:
-    - uses: actions/checkout@v2
-    - run: |
-        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-
-    - name: Install Dependencies
-      run: npm install
-
-    - name: Fetch data from sheet
+    - uses: actions/checkout@master
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+    - name: Create local changes
       run: |
+        npm install
         npm start
-      env:
-          SHEET_ID_2: ${{ secrets.SHEET_ID_2 }}
-        
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git pull
-        git add .
-        git commit -m "update json"
-        
-    - name: GitHub Push
-      uses: ad-m/github-push-action@v0.6.0
+        git commit -m "update json" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -27,6 +27,6 @@ upload_files() {
 
 setup_git
 
-commit_json_files
+commit_json_file
 
 upload_files

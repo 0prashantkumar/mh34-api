@@ -8,3 +8,6 @@ install:
 script:
     - npm start
 
+after_success:
+    - sh .travis/push.sh
+
